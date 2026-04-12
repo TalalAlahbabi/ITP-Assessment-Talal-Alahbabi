@@ -1,3 +1,8 @@
+import requests
+
+API_KEY = "399aa10b0d5bfb49a6b80d8c88c0bb83"
+
+
 def show_menu():
     print("\nWeather Dashboard with Advice")
     print("1. Search weather by city")
@@ -17,6 +22,55 @@ def get_city_name():
     return city
 
 
+def get_weather_data(city):
+    url = "https://api.openweathermap.org/data/2.5/weather"
+
+    params = {
+        "q": city,
+        "appid": API_KEY,
+        "units": "metric"
+    }
+
+    try:
+        response = requests.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        return response.json()
+
+    except requests.exceptions.Timeout:
+        print("Request timed out. Please try again.")
+        return None
+
+    except requests.exceptions.ConnectionError:
+        print("Network error. Please check your internet connection.")
+        return None
+
+    except requests.exceptions.HTTPError:
+        print("City not found or API request failed.")
+        return None
+
+    except requests.exceptions.RequestException:
+        print("Something went wrong with the request.")
+        return None
+
+
+def display_weather(data):
+    if data is None:
+        return
+
+    city = data["name"]
+    temperature = data["main"]["temp"]
+    condition = data["weather"][0]["description"]
+    humidity = data["main"]["humidity"]
+    wind_speed = data["wind"]["speed"]
+
+    print("\nCurrent Weather")
+    print("City:", city)
+    print("Temperature:", temperature, "°C")
+    print("Condition:", condition)
+    print("Humidity:", humidity, "%")
+    print("Wind Speed:", wind_speed, "m/s")
+
+
 def main():
     while True:
         show_menu()
@@ -25,7 +79,8 @@ def main():
         if choice == "1":
             city = get_city_name()
             if city is not None:
-                print("You entered:", city)
+                data = get_weather_data(city)
+                display_weather(data)
 
         elif choice == "2":
             print("View search history selected.")
@@ -45,8 +100,6 @@ def main():
 
 
 main()
-
-
 
 
 print("Weather Dashboard with Advice")

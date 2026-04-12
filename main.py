@@ -1,4 +1,6 @@
 import requests
+import json
+from datetime import datetime
 
 API_KEY = "399aa10b0d5bfb49a6b80d8c88c0bb83"
 
@@ -59,8 +61,36 @@ def get_weather_data(city):
         print("Request error:", e)
         return None
 
+def load_history():
+    try:
+        with open("history.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
+    except json.JSONDecodeError:
+        return []
 
-ddef display_weather(data):
+
+def save_history(city, temperature, condition, humidity, wind_speed, clothing_advice, travel_advice):
+    history = load_history()
+
+    record = {
+        "city": city,
+        "temperature": temperature,
+        "condition": condition,
+        "humidity": humidity,
+        "wind_speed": wind_speed,
+        "clothing_advice": clothing_advice,
+        "travel_advice": travel_advice,
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+    history.append(record)
+
+    with open("history.json", "w") as file:
+        json.dump(history, file, indent=4)
+
+def display_weather(data):
     if data is None:
         return
 
@@ -83,6 +113,8 @@ ddef display_weather(data):
     print("\nAdvice")
     print("Clothing:", clothing_advice)
     print("Travel:", travel_advice)
+
+    save_history(city, temperature, condition, humidity, wind_speed, clothing_advice, travel_advice)
 
 
 def main():

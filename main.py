@@ -7,28 +7,44 @@ def show_menu():
     print("5. Exit")
 
 
+def get_city_name():
+    city = input("Enter city name: ").strip()
+
+    if city == "":
+        print("City name cannot be empty.")
+        return None
+
+    return city
+
+
 def main():
     while True:
         show_menu()
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            print("Search weather by city selected.")
+            city = get_city_name()
+            if city is not None:
+                print("You entered:", city)
+
         elif choice == "2":
             print("View search history selected.")
+
         elif choice == "3":
             print("Search history by city selected.")
+
         elif choice == "4":
             print("Show forecast trend selected.")
+
         elif choice == "5":
             print("Goodbye.")
             break
+
         else:
             print("Invalid choice. Please enter a number from 1 to 5.")
 
 
 main()
-
 
 
 

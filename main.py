@@ -33,6 +33,17 @@ def get_weather_data(city):
 
     try:
         response = requests.get(url, params=params, timeout=10)
+
+        if response.status_code == 401:
+            print("Invalid API key.")
+            print("Response:", response.text)
+            return None
+
+        if response.status_code == 404:
+            print("City not found.")
+            print("Response:", response.text)
+            return None
+
         response.raise_for_status()
         return response.json()
 
@@ -44,12 +55,8 @@ def get_weather_data(city):
         print("Network error. Please check your internet connection.")
         return None
 
-    except requests.exceptions.HTTPError:
-        print("City not found or API request failed.")
-        return None
-
-    except requests.exceptions.RequestException:
-        print("Something went wrong with the request.")
+    except requests.exceptions.RequestException as e:
+        print("Request error:", e)
         return None
 
 
@@ -74,7 +81,7 @@ def display_weather(data):
 def main():
     while True:
         show_menu()
-        choice = input("Enter your choice: ")
+        choice = input("Enter your choice: ").strip()
 
         if choice == "1":
             city = get_city_name()
@@ -99,7 +106,5 @@ def main():
             print("Invalid choice. Please enter a number from 1 to 5.")
 
 
-main()
-
-
-print("Weather Dashboard with Advice")
+if __name__ == "__main__":
+    main()

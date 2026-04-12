@@ -98,6 +98,7 @@ def load_history():
         return []
 
 
+
 # Saves weather search data to the history file
 def save_history(city, temperature, condition, humidity, wind_speed, clothing_advice, travel_advice):
     history = load_history()
@@ -115,8 +116,11 @@ def save_history(city, temperature, condition, humidity, wind_speed, clothing_ad
 
     history.append(record)
 
-    with open("history.json", "w") as file:
-        json.dump(history, file, indent=4)
+    try:
+        with open("history.json", "w") as file:
+            json.dump(history, file, indent=4)
+    except Exception:
+        print("Error saving history.")
 
 
 # Displays current weather data and related advice

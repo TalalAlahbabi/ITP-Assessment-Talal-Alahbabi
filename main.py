@@ -132,7 +132,7 @@ def main():
             view_history()
 
         elif choice == "3":
-            print("Search history by city selected.")
+            search_history_by_city()
 
         elif choice == "4":
             print("Show forecast trend selected.")
@@ -181,5 +181,27 @@ def view_history():
         print("Travel Advice:", record["travel_advice"])
         print("Date:", record["date"])
 
+def search_history_by_city():
+    city_name = input("Enter city name to search in history: ").strip().lower()
+    history = load_history()
+
+    found = False
+
+    for record in history:
+        if record["city"].lower() == city_name:
+            print("\nMatching Record")
+            print("----------------------------")
+            print("City:", record["city"])
+            print("Temperature:", record["temperature"], "°C")
+            print("Condition:", record["condition"])
+            print("Humidity:", record["humidity"], "%")
+            print("Wind Speed:", record["wind_speed"], "m/s")
+            print("Clothing Advice:", record["clothing_advice"])
+            print("Travel Advice:", record["travel_advice"])
+            print("Date:", record["date"])
+            found = True
+
+    if not found:
+        print("No matching city found in history.")
 if __name__ == "__main__":
     main()

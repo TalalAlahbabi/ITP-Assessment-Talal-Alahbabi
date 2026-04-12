@@ -3,7 +3,8 @@ import json
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-API_KEY = "399aa10b0d5bfb49a6b80d8c88c0bb83"
+API_KEY = "67f2082b1e19868240e6ee3bee2f7e48"
+
 
 # Displays the main menu options
 def show_menu():
@@ -15,7 +16,8 @@ def show_menu():
     print("5. Sort history by temperature")
     print("6. Exit")
 
-# Gets city name input from user
+
+# Gets city name input from the user
 def get_city_name():
     city = input("Enter city name: ").strip()
 
@@ -25,7 +27,8 @@ def get_city_name():
 
     return city
 
-# Fetches live weather data from API
+
+# Fetches live current weather data from the API
 def get_weather_data(city):
     url = "https://api.openweathermap.org/data/2.5/weather"
 
@@ -63,6 +66,28 @@ def get_weather_data(city):
         print("Request error:", e)
         return None
 
+
+# Gives clothing advice based on temperature
+def get_clothing_advice(temp):
+    if temp < 10:
+        return "Wear a heavy jacket."
+    elif temp < 20:
+        return "Wear a light jacket."
+    else:
+        return "Light clothing is fine."
+
+
+# Gives travel advice based on weather condition
+def get_travel_advice(condition):
+    if "rain" in condition.lower():
+        return "Take an umbrella when going outside."
+    elif "snow" in condition.lower():
+        return "Drive carefully due to snow."
+    else:
+        return "Weather is good for travel."
+
+
+# Loads search history from the JSON file
 def load_history():
     try:
         with open("history.json", "r") as file:
@@ -73,6 +98,7 @@ def load_history():
         return []
 
 
+# Saves weather search data to the history file
 def save_history(city, temperature, condition, humidity, wind_speed, clothing_advice, travel_advice):
     history = load_history()
 
@@ -92,6 +118,8 @@ def save_history(city, temperature, condition, humidity, wind_speed, clothing_ad
     with open("history.json", "w") as file:
         json.dump(history, file, indent=4)
 
+
+# Displays current weather data and related advice
 def display_weather(data):
     if data is None:
         return
@@ -119,54 +147,7 @@ def display_weather(data):
     save_history(city, temperature, condition, humidity, wind_speed, clothing_advice, travel_advice)
 
 
-def main():
-    while True:
-        show_menu()
-        choice = input("Enter your choice: ").strip()
-
-        if choice == "1":
-            city = get_city_name()
-            if city is not None:
-                data = get_weather_data(city)
-                display_weather(data)
-
-        elif choice == "2":
-            view_history()
-
-        elif choice == "3":
-            search_history_by_city()
-
-        elif choice == "4":
-            show_forecast_trend()
-
-        elif choice == "5":
-            sort_history_by_temperature()
-
-        elif choice == "6":
-            print("Goodbye.")
-            break
-
-        else:
-            print("Invalid choice. Please enter a number from 1 to 6.")
-
-
-def get_clothing_advice(temp):
-    if temp < 10:
-        return "Wear a heavy jacket."
-    elif temp < 20:
-        return "Wear a light jacket."
-    else:
-        return "Light clothing is fine."
-
-
-def get_travel_advice(condition):
-    if "rain" in condition.lower():
-        return "Take an umbrella when going outside."
-    elif "snow" in condition.lower():
-        return "Drive carefully due to snow."
-    else:
-        return "Weather is good for travel."
-
+# Displays all saved search history
 def view_history():
     history = load_history()
 
@@ -186,6 +167,8 @@ def view_history():
         print("Travel Advice:", record["travel_advice"])
         print("Date:", record["date"])
 
+
+# Searches saved history by city name
 def search_history_by_city():
     city_name = input("Enter city name to search in history: ").strip().lower()
 
@@ -218,6 +201,8 @@ def search_history_by_city():
     if not found:
         print("No matching city found in history.")
 
+
+# Displays a forecast temperature trend chart for a city
 def show_forecast_trend():
     city = get_city_name()
     if city is None:
@@ -268,6 +253,8 @@ def show_forecast_trend():
     except requests.exceptions.RequestException as e:
         print("Request error:", e)
 
+
+# Sorts saved history records by temperature
 def sort_history_by_temperature():
     history = load_history()
 
@@ -284,6 +271,38 @@ def sort_history_by_temperature():
         print("Temperature:", record["temperature"], "°C")
         print("Condition:", record["condition"])
         print("Date:", record["date"])
+
+
+# Runs the main program loop
+def main():
+    while True:
+        show_menu()
+        choice = input("Enter your choice: ").strip()
+
+        if choice == "1":
+            city = get_city_name()
+            if city is not None:
+                data = get_weather_data(city)
+                display_weather(data)
+
+        elif choice == "2":
+            view_history()
+
+        elif choice == "3":
+            search_history_by_city()
+
+        elif choice == "4":
+            show_forecast_trend()
+
+        elif choice == "5":
+            sort_history_by_temperature()
+
+        elif choice == "6":
+            print("Goodbye.")
+            break
+
+        else:
+            print("Invalid choice. Please enter a number from 1 to 6.")
 
 
 if __name__ == "__main__":

@@ -129,7 +129,7 @@ def main():
                 display_weather(data)
 
         elif choice == "2":
-            print("View search history selected.")
+            view_history()
 
         elif choice == "3":
             print("Search history by city selected.")
@@ -162,6 +162,24 @@ def get_travel_advice(condition):
     else:
         return "Weather is good for travel."
 
+def view_history():
+    history = load_history()
+
+    if len(history) == 0:
+        print("No search history found.")
+        return
+
+    print("\nSearch History")
+    for record in history:
+        print("----------------------------")
+        print("City:", record["city"])
+        print("Temperature:", record["temperature"], "°C")
+        print("Condition:", record["condition"])
+        print("Humidity:", record["humidity"], "%")
+        print("Wind Speed:", record["wind_speed"], "m/s")
+        print("Clothing Advice:", record["clothing_advice"])
+        print("Travel Advice:", record["travel_advice"])
+        print("Date:", record["date"])
 
 if __name__ == "__main__":
     main()

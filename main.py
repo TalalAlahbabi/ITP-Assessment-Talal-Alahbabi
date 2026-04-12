@@ -60,7 +60,7 @@ def get_weather_data(city):
         return None
 
 
-def display_weather(data):
+ddef display_weather(data):
     if data is None:
         return
 

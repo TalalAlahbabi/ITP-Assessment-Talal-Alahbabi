@@ -70,12 +70,19 @@ def display_weather(data):
     humidity = data["main"]["humidity"]
     wind_speed = data["wind"]["speed"]
 
+    clothing_advice = get_clothing_advice(temperature)
+    travel_advice = get_travel_advice(condition)
+
     print("\nCurrent Weather")
     print("City:", city)
     print("Temperature:", temperature, "°C")
     print("Condition:", condition)
     print("Humidity:", humidity, "%")
     print("Wind Speed:", wind_speed, "m/s")
+
+    print("\nAdvice")
+    print("Clothing:", clothing_advice)
+    print("Travel:", travel_advice)
 
 
 def main():
@@ -104,6 +111,24 @@ def main():
 
         else:
             print("Invalid choice. Please enter a number from 1 to 5.")
+
+
+    def get_clothing_advice(temp):
+    if temp < 10:
+        return "Wear a heavy jacket."
+    elif temp < 20:
+        return "Wear a light jacket."
+    else:
+        return "Light clothing is fine."
+
+
+def get_travel_advice(condition):
+    if "rain" in condition.lower():
+        return "Take an umbrella when going outside."
+    elif "snow" in condition.lower():
+        return "Drive carefully due to snow."
+    else:
+        return "Weather is good for travel."
 
 
 if __name__ == "__main__":

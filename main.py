@@ -1,6 +1,7 @@
 import requests
 import json
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 API_KEY = "399aa10b0d5bfb49a6b80d8c88c0bb83"
 
@@ -135,7 +136,7 @@ def main():
             search_history_by_city()
 
         elif choice == "4":
-            print("Show forecast trend selected.")
+            show_forecast_trend()
 
         elif choice == "5":
             print("Goodbye.")
@@ -203,5 +204,57 @@ def search_history_by_city():
 
     if not found:
         print("No matching city found in history.")
+
+def show_forecast_trend():
+    city = get_city_name()
+    if city is None:
+        return
+
+    url = "https://api.openweathermap.org/data/2.5/forecast"
+
+    params = {
+        "q": city,
+        "appid": API_KEY,
+        "units": "metric"
+    }
+
+    try:
+        response = requests.get(url, params=params, timeout=10)
+
+        if response.status_code == 401:
+            print("Invalid API key.")
+            return
+
+        if response.status_code == 404:
+            print("City not found.")
+            return
+
+        response.raise_for_status()
+        data = response.json()
+
+        dates = []
+        temperatures = []
+
+        for item in data["list"][:8]:
+            dates.append(item["dt_txt"])
+            temperatures.append(item["main"]["temp"])
+
+        plt.figure(figsize=(10, 5))
+        plt.plot(dates, temperatures, marker="o")
+        plt.title(f"Forecast Trend for {city}")
+        plt.xlabel("Date and Time")
+        plt.ylabel("Temperature (°C)")
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
+
+    except requests.exceptions.Timeout:
+        print("Request timed out. Please try again.")
+    except requests.exceptions.ConnectionError:
+        print("Network error. Please check your internet connection.")
+    except requests.exceptions.RequestException as e:
+        print("Request error:", e)
+
+
 if __name__ == "__main__":
     main()

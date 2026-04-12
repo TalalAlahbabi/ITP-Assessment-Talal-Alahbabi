@@ -113,7 +113,7 @@ def main():
             print("Invalid choice. Please enter a number from 1 to 5.")
 
 
-    def get_clothing_advice(temp):
+def get_clothing_advice(temp):
     if temp < 10:
         return "Wear a heavy jacket."
     elif temp < 20:

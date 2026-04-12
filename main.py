@@ -184,7 +184,16 @@ def view_history():
 
 def search_history_by_city():
     city_name = input("Enter city name to search in history: ").strip().lower()
+
+    if city_name == "":
+        print("City name cannot be empty.")
+        return
+
     history = load_history()
+
+    if len(history) == 0:
+        print("No search history found.")
+        return
 
     found = False
 

@@ -12,8 +12,8 @@ def show_menu():
     print("2. View search history")
     print("3. Search history by city")
     print("4. Show forecast trend")
-    print("5. Exit")
-
+    print("5. Sort history by temperature")
+    print("6. Exit")
 
 def get_city_name():
     city = input("Enter city name: ").strip()
@@ -135,15 +135,18 @@ def main():
         elif choice == "3":
             search_history_by_city()
 
-        elif choice == "4":
+                elif choice == "4":
             show_forecast_trend()
 
         elif choice == "5":
+            sort_history_by_temperature()
+
+        elif choice == "6":
             print("Goodbye.")
             break
 
         else:
-            print("Invalid choice. Please enter a number from 1 to 5.")
+            print("Invalid choice. Please enter a number from 1 to 6.")
 
 
 def get_clothing_advice(temp):
@@ -263,6 +266,23 @@ def show_forecast_trend():
         print("Network error. Please check your internet connection.")
     except requests.exceptions.RequestException as e:
         print("Request error:", e)
+
+def sort_history_by_temperature():
+    history = load_history()
+
+    if len(history) == 0:
+        print("No search history found.")
+        return
+
+    sorted_history = sorted(history, key=lambda record: record["temperature"])
+
+    print("\nHistory Sorted by Temperature")
+    for record in sorted_history:
+        print("----------------------------")
+        print("City:", record["city"])
+        print("Temperature:", record["temperature"], "°C")
+        print("Condition:", record["condition"])
+        print("Date:", record["date"])
 
 
 if __name__ == "__main__":

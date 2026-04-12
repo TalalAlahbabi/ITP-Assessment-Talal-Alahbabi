@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 API_KEY = "399aa10b0d5bfb49a6b80d8c88c0bb83"
 
-
+# Displays the main menu options
 def show_menu():
     print("\nWeather Dashboard with Advice")
     print("1. Search weather by city")
@@ -15,6 +15,7 @@ def show_menu():
     print("5. Sort history by temperature")
     print("6. Exit")
 
+# Gets city name input from user
 def get_city_name():
     city = input("Enter city name: ").strip()
 
@@ -24,7 +25,7 @@ def get_city_name():
 
     return city
 
-
+# Fetches live weather data from API
 def get_weather_data(city):
     url = "https://api.openweathermap.org/data/2.5/weather"
 
@@ -135,7 +136,7 @@ def main():
         elif choice == "3":
             search_history_by_city()
 
-                elif choice == "4":
+        elif choice == "4":
             show_forecast_trend()
 
         elif choice == "5":

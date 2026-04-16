@@ -25,5 +25,5 @@ How to Run the Program:
 2. Run the file using: python main.py
 3. Choose the desired option from 1-6 in the menu (choose 6 to exit)
 
-GitHub Link:
+GitHub Repository:
 https://github.com/TalalAlahbabi/ITP-Assessment-Talal-Alahbabi

@@ -14,14 +14,15 @@ This project is called Weather Dashboard with Advice. It connects to a live weat
 Libraries Used:
 - requests
 - matplotlib
-- json
-- datetime
 
 Installation Instructions:
 1. Install Python.
-2. Install required packages mentioned in "requirements.txt" file 
+2. Open terminal in the project folder.
+3. Run: pip install -r requirements.txt
 
 How to Run the Program:
 1. Open the project folder in terminal or VS Code.
 2. Run the file using: python main.py
 3. Choose the desired option from 1-6 in the menu (choose 6 to exit)
+
+GitHub Link:
